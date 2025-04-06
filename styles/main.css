@@ -105,27 +105,6 @@ header h1 {
     gap: 10px;
 }
 
-.auth-button {
-    font-family: 'Cairo', sans-serif;
-    font-weight: normal;
-    background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    padding: 8px 15px;
-    border-radius: 30px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: var(--transition);
-    margin-right: 15px;
-}
-
-.auth-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-}
-
 nav ul {
     list-style: none;
     padding: 0;
@@ -532,14 +511,6 @@ section {
     text-align: center;
 }
 
-.auth-message {
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
-    text-align: center;
-    font-weight: bold;
-}
-
 .user-info {
     display: flex;
     align-items: center;
@@ -729,67 +700,6 @@ section {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 3px rgba(248, 181, 0, 0.2);
-}
-
-.login-page {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.login-container {
-    background-color: var(--card-bg);
-    padding: 30px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    text-align: center;
-}
-
-.login-header h2 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
-
-.login-options {
-    margin: 30px 0;
-}
-
-.login-btn {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: var(--transition);
-}
-
-.login-btn.google {
-    background-color: #DB4437;
-}
-
-.login-btn.microsoft {
-    background-color: #0078D7;
-}
-
-.login-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .close-btn {
