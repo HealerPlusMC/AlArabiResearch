@@ -1,39 +1,16 @@
-// Initialize Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyAlF1tX9WjPAJAy08qDPxW-pDOua3bE3gw",
-  authDomain: "alarabiresearch.firebaseapp.com",
-  projectId: "alarabiresearch",
-  storageBucket: "alarabiresearch.firebasestorage.app",
-  messagingSenderId: "124042267520",
-  appId: "1:124042267520:web:c5138ed19ee49a94c34f65",
-  measurementId: "G-QEWDW6RDEC"
-};
-
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
 // DOM Elements
 const burgerMenu = document.querySelector('.burger-menu');
 const nav = document.querySelector('nav');
 const themeToggle = document.getElementById('themeToggle');
 const backToTopBtn = document.getElementById('backToTop');
 const progressBar = document.getElementById('progressBar');
-const authButton = document.getElementById('authButton');
-const loginPage = document.getElementById('loginPage');
-const closeLogin = document.getElementById('closeLogin');
-const loginGoogle = document.getElementById('loginGoogle');
-const loginOutlook = document.getElementById('loginOutlook');
-const openLogin = document.getElementById('open-login');
 const testimonialForm = document.getElementById('testimonial-form');
 const testimonialsList = document.getElementById('testimonialsList');
-const authMessage = document.getElementById('auth-message');
 const submitTestimonial = document.getElementById('submit-testimonial');
 const testimonialEditor = document.getElementById('testimonial-editor');
 const contactForm = document.getElementById('contact-form');
 const messageEditor = document.getElementById('message-editor');
-const contactLoginPrompt = document.getElementById('contact-login-prompt');
-const contactLoginBtn = document.getElementById('contact-login-btn');
+const formSuccess = document.getElementById('form-success');
 
 // Theme Toggle
 themeToggle.addEventListener('click', () => {
@@ -122,99 +99,6 @@ backToTopBtn.addEventListener('click', () => {
     });
 });
 
-// Login Page Controls
-authButton.addEventListener('click', () => {
-    if (auth.currentUser) {
-        auth.signOut();
-    } else {
-        loginPage.style.display = 'flex';
-    }
-});
-
-closeLogin.addEventListener('click', () => {
-    loginPage.style.display = 'none';
-});
-
-openLogin.addEventListener('click', () => {
-    loginPage.style.display = 'flex';
-});
-
-contactLoginBtn.addEventListener('click', () => {
-    loginPage.style.display = 'flex';
-});
-
-// Authentication with Google or Outlook only
-loginGoogle.addEventListener('click', () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    signInWithProvider(provider);
-});
-
-loginOutlook.addEventListener('click', () => {
-    const provider = new firebase.auth.OAuthProvider('microsoft.com');
-    signInWithProvider(provider);
-});
-
-function signInWithProvider(provider) {
-    auth.signInWithPopup(provider)
-        .then((result) => {
-            const user = result.user;
-            const email = user.email.toLowerCase();
-            
-            if (!email.endsWith('@gmail.com') && !email.endsWith('@outlook.com') && 
-                !email.endsWith('@hotmail.com')) {
-                auth.signOut();
-                throw new Error('يجب استخدام حساب Google أو Outlook فقط');
-            }
-            
-            loginPage.style.display = 'none';
-            updateAuthUI(user);
-        })
-        .catch((error) => {
-            authMessage.textContent = error.message;
-            authMessage.style.color = 'red';
-        });
-}
-
-function updateAuthUI(user) {
-    if (user) {
-        authButton.innerHTML = `
-            <img src="${user.photoURL}" alt="صورة المستخدم" class="user-avatar">
-            <span>${user.displayName}</span>
-            <i class="fas fa-sign-out-alt"></i>
-        `;
-        
-        // Show testimonial form if on testimonials section
-        if (testimonialForm) {
-            testimonialForm.style.display = 'block';
-            document.getElementById('login-prompt').style.display = 'none';
-            document.getElementById('user-photo').src = user.photoURL;
-            document.getElementById('user-name').textContent = user.displayName;
-        }
-        
-        // Show contact form
-        if (contactForm) {
-            contactLoginPrompt.style.display = 'none';
-            contactForm.style.display = 'block';
-            document.querySelector('input[name="name"]').value = user.displayName;
-            document.querySelector('input[name="email"]').value = user.email;
-        }
-    } else {
-        authButton.innerHTML = '<i class="fas fa-user"></i> <span>تسجيل الدخول</span>';
-        
-        // Hide testimonial form if on testimonials section
-        if (testimonialForm) {
-            testimonialForm.style.display = 'none';
-            document.getElementById('login-prompt').style.display = 'block';
-        }
-        
-        // Hide contact form
-        if (contactForm) {
-            contactLoginPrompt.style.display = 'block';
-            contactForm.style.display = 'none';
-        }
-    }
-}
-
 // Text formatting functions
 function toggleFormatting(editor, command) {
     const selection = window.getSelection();
@@ -239,22 +123,18 @@ function toggleFormatting(editor, command) {
             break;
     }
 
-    // Check if the selected text is already formatted
     const parentElement = range.commonAncestorContainer.parentElement;
     if (parentElement.style[command === 'bold' ? 'fontWeight' : 
                           command === 'italic' ? 'fontStyle' : 'textDecoration']) {
-        // Remove formatting
         const textNode = document.createTextNode(selectedText);
         range.deleteContents();
         range.insertNode(textNode);
     } else {
-        // Apply formatting
         span.textContent = selectedText;
         range.deleteContents();
         range.insertNode(span);
     }
 
-    // Restore selection
     const newRange = document.createRange();
     newRange.selectNodeContents(span);
     selection.removeAllRanges();
@@ -282,83 +162,60 @@ document.querySelectorAll('.text-formatting button').forEach(button => {
 // Submit testimonial
 if (submitTestimonial) {
     submitTestimonial.addEventListener('click', () => {
-        const user = auth.currentUser;
-        if (!user) return;
-        
+        const name = document.getElementById('guest-name').value || 'زائر';
         const content = testimonialEditor.innerHTML;
         
         if (!content.trim() || content === '<div><br></div>' || content === '<br>') {
-            authMessage.textContent = 'الرجاء كتابة رأيك قبل النشر';
-            authMessage.style.color = 'red';
+            alert('الرجاء كتابة رأيك قبل النشر');
             return;
         }
         
-        db.collection('testimonials').add({
-            userId: user.uid,
-            userName: user.displayName,
-            userPhoto: user.photoURL,
+        const testimonial = {
+            name: name,
             content: content,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        })
-        .then(() => {
-            testimonialEditor.innerHTML = '';
-            authMessage.textContent = 'شكراً لك! تم نشر رأيك بنجاح.';
-            authMessage.style.color = 'green';
-            loadTestimonials();
-        })
-        .catch((error) => {
-            authMessage.textContent = 'حدث خطأ أثناء نشر رأيك: ' + error.message;
-            authMessage.style.color = 'red';
-        });
+            date: new Date().toLocaleDateString('ar-EG')
+        };
+        
+        let testimonials = JSON.parse(localStorage.getItem('testimonials')) || [];
+        testimonials.unshift(testimonial);
+        localStorage.setItem('testimonials', JSON.stringify(testimonials));
+        
+        testimonialEditor.innerHTML = '';
+        document.getElementById('guest-name').value = '';
+        loadTestimonials();
+        
+        alert('شكراً لك! تم نشر رأيك بنجاح.');
     });
 }
 
-// Load testimonials
+// Load testimonials from localStorage
 function loadTestimonials() {
     if (!testimonialsList) return;
     
-    db.collection('testimonials')
-        .orderBy('createdAt', 'desc')
-        .limit(5)
-        .get()
-        .then((querySnapshot) => {
-            testimonialsList.innerHTML = '';
-            
-            querySnapshot.forEach((doc) => {
-                const testimonial = doc.data();
-                const testimonialItem = document.createElement('div');
-                testimonialItem.className = 'testimonial-item animate-on-scroll';
-                
-                testimonialItem.innerHTML = `
-                    <div class="testimonial-header">
-                        <img src="${testimonial.userPhoto}" alt="صورة ${testimonial.userName}" class="testimonial-avatar">
-                        <div>
-                            <div class="testimonial-author">${testimonial.userName}</div>
-                            <div class="testimonial-date">${new Date(testimonial.createdAt.seconds * 1000).toLocaleDateString('ar-EG')}</div>
-                        </div>
-                    </div>
-                    <div class="testimonial-content">${testimonial.content}</div>
-                `;
-                
-                testimonialsList.appendChild(testimonialItem);
-            });
-            
-            // Trigger animation for new elements
-            setTimeout(animateOnScroll, 100);
-        })
-        .catch((error) => {
-            console.error('Error loading testimonials: ', error);
-        });
-}
-
-// Load more testimonials
-if (document.getElementById('loadMoreTestimonials')) {
-    document.getElementById('loadMoreTestimonials').addEventListener('click', loadMoreTestimonials);
-}
-
-function loadMoreTestimonials() {
-    // Implement load more functionality here
-    alert('سيتم تحميل المزيد من الآراء في التطبيق الكامل');
+    const testimonials = JSON.parse(localStorage.getItem('testimonials')) || [];
+    testimonialsList.innerHTML = '';
+    
+    testimonials.forEach((testimonial) => {
+        const testimonialItem = document.createElement('div');
+        testimonialItem.className = 'testimonial-item animate-on-scroll';
+        
+        testimonialItem.innerHTML = `
+            <div class="testimonial-header">
+                <div class="testimonial-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <div class="testimonial-author">${testimonial.name}</div>
+                    <div class="testimonial-date">${testimonial.date}</div>
+                </div>
+            </div>
+            <div class="testimonial-content">${testimonial.content}</div>
+        `;
+        
+        testimonialsList.appendChild(testimonialItem);
+    });
+    
+    setTimeout(animateOnScroll, 100);
 }
 
 // Contact form
@@ -366,7 +223,6 @@ if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        const formSuccess = document.getElementById('form-success');
         formSuccess.textContent = 'تم إرسال رسالتك بنجاح، سنتواصل معك قريباً!';
         formSuccess.style.display = 'block';
         
@@ -403,13 +259,9 @@ window.addEventListener('load', () => {
         document.querySelector('.loader-wrapper').classList.add('hidden');
     }, 1000);
     
-    // Load testimonials if on testimonials page
     if (window.location.hash === '#testimonials' || document.getElementById('testimonialsList')) {
         loadTestimonials();
     }
-    
-    // Update auth UI
-    auth.onAuthStateChanged(updateAuthUI);
 });
 
 window.addEventListener('scroll', animateOnScroll);
