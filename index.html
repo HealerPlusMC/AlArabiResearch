@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="أكاديمية العربي للبحث العلمي - منصة لتبادل الأبحاث العلمية ومساعدة الباحثين">
+    <meta property="og:title" content="أكاديمية العربي للبحث العلمي">
+    <meta property="og:description" content="منصة لتبادل الأبحاث العلمية ومساعدة الباحثين">
+    <title>أكاديمية العربي للبحث العلمي</title>
+    <link rel="icon" type="image/png" href="images/favicon.jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+<body class="light-theme">
+    <!-- شريط التقدم -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <header>
+        <div class="container">
+            <h1 class="animate__animated animate__fadeInDown">أكاديمية العربي للبحث العلمي</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link">الرئيسية</a></li>
+                    <li><a href="#about" class="nav-link">من نحن</a></li>
+                    <li><a href="#services" class="nav-link">خدماتنا</a></li>
+                    <li><a href="#testimonials" class="nav-link">آراء العملاء</a></li>
+                    <li><a href="#contact" class="nav-link">تواصل معنا</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button id="authButton" class="auth-button">
+                    <i class="fas fa-user"></i>
+                    <span>تسجيل الدخول</span>
+                </button>
+                <div class="burger-menu">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2 class="animate__animated animate__fadeInDown animate__delay-1s">نحو مجتمع معرفي متعاون</h2>
+            <p class="animate__animated animate__fadeInUp animate__delay-1s">ندعم الطلبة والباحثين بتوفير مساحة لتبادل الأبحاث العلمية المتميزة.</p>
+            <a href="#services" class="cta-button animate__animated animate__fadeIn animate__delay-2s">اكتشف خدماتنا</a>
+        </div>
+        <div class="hero-scroll-indicator animate__animated animate__fadeIn animate__delay-3s animate__infinite">
+            <span></span>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">من نحن</h2>
+                <h3 class="section-heading">من نحن</h3>
+            </div>
+            <p class="animate-on-scroll">
+                نحن صفحة علمية تهدف لبناء مجتمع معرفي متميز من خلال توفير محتوى أكاديمي وأبحاث عالية الجودة،
+                نؤمن أن نشر العلم رسالة، ونطمح لأن نكون جسرًا بين الباحثين والطلاب.
+            </p>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">خدماتنا</h2>
+                <h3 class="section-heading">خدماتنا</h3>
+            </div>
+            <div class="service-boxes">
+                <div class="service animate-on-scroll">
+                    <div class="service-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>تبادل الأبحاث</h3>
+                    <p>نوفّر منصة لتبادل الأبحاث بين الطلبة والباحثين بسهولة واحترافية.</p>
+                    <a href="#" class="service-link">المزيد <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="service animate-on-scroll" data-delay="200">
+                    <div class="service-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>مساعدة أكاديمية</h3>
+                    <p>دعم للباحثين في اختيار المواضيع، وتنسيق الأبحاث، ومراجعة الجودة.</p>
+                    <a href="#" class="service-link">المزيد <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="service animate-on-scroll" data-delay="400">
+                    <div class="service-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>موارد علمية</h3>
+                    <p>مكتبة متجددة من الأدوات والملفات التي تُسهم في إثراء البحث العلمي.</p>
+                    <a href="#" class="service-link">المزيد <i class="fas fa-arrow-left"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">آراء عملائنا</h2>
+                <h3 class="section-heading">آراء عملائنا</h3>
+            </div>
+            <div class="testimonials-container">
+                <div class="testimonial-form animate-on-scroll">
+                    <h3>أضف رأيك</h3>
+                    <div id="auth-message" class="auth-message"></div>
+                    
+                    <div id="testimonial-form" style="display: none;">
+                        <div class="user-info">
+                            <img id="user-photo" src="" alt="صورة المستخدم">
+                            <span id="user-name"></span>
+                        </div>
+                        <div class="message-editor">
+                            <div id="testimonial-editor" contenteditable="true" placeholder="اكتب رأيك هنا..."></div>
+                            <div class="text-formatting">
+                                <button type="button" data-command="bold"><i class="fas fa-bold"></i></button>
+                                <button type="button" data-command="italic"><i class="fas fa-italic"></i></button>
+                                <button type="button" data-command="underline"><i class="fas fa-underline"></i></button>
+                            </div>
+                        </div>
+                        <button type="button" id="submit-testimonial" class="submit-btn">نشر الرأي</button>
+                    </div>
+                    
+                    <div id="login-prompt">
+                        <p>للتعليق، يرجى تسجيل الدخول أولاً</p>
+                        <button id="open-login" class="login-prompt-btn">تسجيل الدخول</button>
+                    </div>
+                </div>
+                <div class="testimonials-list" id="testimonialsList">
+                    <!-- سيتم ملء هذا القسم تلقائياً من قاعدة البيانات -->
+                </div>
+            </div>
+            <button id="loadMoreTestimonials" class="load-more">عرض المزيد</button>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">تواصل معنا</h2>
+                <h3 class="section-heading">تواصل معنا</h3>
+            </div>
+            <div id="contact-content">
+                <div id="contact-login-prompt" class="auth-message">
+                    <p>لإرسال رسالة، يرجى تسجيل الدخول أولاً</p>
+                    <button id="contact-login-btn" class="login-prompt-btn">تسجيل الدخول</button>
+                </div>
+                <form id="contact-form" class="animate-on-scroll" style="display: none;">
+                    <label>الاسم الكامل</label>
+                    <input type="text" name="name" placeholder="اكتب اسمك الكامل" required>
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
+                    <label>الرسالة</label>
+                    <div class="message-editor">
+                        <div id="message-editor" contenteditable="true" placeholder="اكتب رسالتك هنا"></div>
+                        <div class="text-formatting">
+                            <button type="button" data-command="bold"><i class="fas fa-bold"></i></button>
+                            <button type="button" data-command="italic"><i class="fas fa-italic"></i></button>
+                            <button type="button" data-command="underline"><i class="fas fa-underline"></i></button>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">إرسال</button>
+                </form>
+                <div id="form-success" class="form-success"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>أكاديمية العربي للبحث العلمي</h3>
+                    <p>نحو مجتمع معرفي متعاون</p>
+                </div>
+                <div class="footer-links">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="#">الرئيسية</a></li>
+                        <li><a href="#about">من نحن</a></li>
+                        <li><a href="#services">خدماتنا</a></li>
+                        <li><a href="#testimonials">آراء العملاء</a></li>
+                        <li><a href="#contact">تواصل معنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>تابعنا</h4>
+                    <a href="https://facebook.com/AlArabiResearch" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 أكاديمية العربي للبحث العلمي. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- صفحة تسجيل الدخول -->
+    <div id="loginPage" class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>تسجيل الدخول</h2>
+                <p>الرجاء استخدام حساب Google أو Microsoft فقط</p>
+            </div>
+            <div class="login-options">
+                <button id="loginGoogle" class="login-btn google">
+                    <i class="fab fa-google"></i> تسجيل الدخول بحساب Google
+                </button>
+                <button id="loginOutlook" class="login-btn microsoft">
+                    <i class="fab fa-microsoft"></i> تسجيل الدخول بحساب Microsoft
+                </button>
+            </div>
+            <div class="login-footer">
+                <button id="closeLogin" class="close-btn">العودة للصفحة الرئيسية</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- زر العودة للأعلى -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- زر تبديل الثيم -->
+    <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+    </button>
+
+    <!-- نافذة التحميل -->
+    <div class="loader-wrapper">
+        <div class="loader">
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html>
