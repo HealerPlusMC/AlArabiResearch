@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="styles/main.css">
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body class="light-theme">
     <!-- شريط التقدم -->
@@ -34,10 +31,6 @@
                 </ul>
             </nav>
             <div class="header-actions">
-                <button id="authButton" class="auth-button">
-                    <i class="fas fa-user"></i>
-                    <span>تسجيل الدخول</span>
-                </button>
                 <div class="burger-menu">
                     <div></div>
                     <div></div>
@@ -115,12 +108,10 @@
             <div class="testimonials-container">
                 <div class="testimonial-form animate-on-scroll">
                     <h3>أضف رأيك</h3>
-                    <div id="auth-message" class="auth-message"></div>
-                    
-                    <div id="testimonial-form" style="display: none;">
-                        <div class="user-info">
-                            <img id="user-photo" src="" alt="صورة المستخدم">
-                            <span id="user-name"></span>
+                    <form id="testimonial-form">
+                        <div class="form-group">
+                            <label>اسمك</label>
+                            <input type="text" id="guest-name" placeholder="اسمك (اختياري)">
                         </div>
                         <div class="message-editor">
                             <div id="testimonial-editor" contenteditable="true" placeholder="اكتب رأيك هنا..."></div>
@@ -131,15 +122,10 @@
                             </div>
                         </div>
                         <button type="button" id="submit-testimonial" class="submit-btn">نشر الرأي</button>
-                    </div>
-                    
-                    <div id="login-prompt">
-                        <p>للتعليق، يرجى تسجيل الدخول أولاً</p>
-                        <button id="open-login" class="login-prompt-btn">تسجيل الدخول</button>
-                    </div>
+                    </form>
                 </div>
                 <div class="testimonials-list" id="testimonialsList">
-                    <!-- سيتم ملء هذا القسم تلقائياً من قاعدة البيانات -->
+                    <!-- سيتم ملء هذا القسم تلقائياً من localStorage -->
                 </div>
             </div>
             <button id="loadMoreTestimonials" class="load-more">عرض المزيد</button>
@@ -152,16 +138,16 @@
                 <h2 class="section-title">تواصل معنا</h2>
                 <h3 class="section-heading">تواصل معنا</h3>
             </div>
-            <div id="contact-content">
-                <div id="contact-login-prompt" class="auth-message">
-                    <p>لإرسال رسالة، يرجى تسجيل الدخول أولاً</p>
-                    <button id="contact-login-btn" class="login-prompt-btn">تسجيل الدخول</button>
-                </div>
-                <form id="contact-form" class="animate-on-scroll" style="display: none;">
+            <form id="contact-form" class="animate-on-scroll">
+                <div class="form-group">
                     <label>الاسم الكامل</label>
                     <input type="text" name="name" placeholder="اكتب اسمك الكامل" required>
+                </div>
+                <div class="form-group">
                     <label>البريد الإلكتروني</label>
                     <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
+                </div>
+                <div class="form-group">
                     <label>الرسالة</label>
                     <div class="message-editor">
                         <div id="message-editor" contenteditable="true" placeholder="اكتب رسالتك هنا"></div>
@@ -171,10 +157,10 @@
                             <button type="button" data-command="underline"><i class="fas fa-underline"></i></button>
                         </div>
                     </div>
-                    <button type="submit" class="submit-btn">إرسال</button>
-                </form>
-                <div id="form-success" class="form-success"></div>
-            </div>
+                </div>
+                <button type="submit" class="submit-btn">إرسال</button>
+            </form>
+            <div id="form-success" class="form-success"></div>
         </div>
     </section>
 
@@ -207,27 +193,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- صفحة تسجيل الدخول -->
-    <div id="loginPage" class="login-page">
-        <div class="login-container">
-            <div class="login-header">
-                <h2>تسجيل الدخول</h2>
-                <p>الرجاء استخدام حساب Google أو Microsoft فقط</p>
-            </div>
-            <div class="login-options">
-                <button id="loginGoogle" class="login-btn google">
-                    <i class="fab fa-google"></i> تسجيل الدخول بحساب Google
-                </button>
-                <button id="loginOutlook" class="login-btn microsoft">
-                    <i class="fab fa-microsoft"></i> تسجيل الدخول بحساب Microsoft
-                </button>
-            </div>
-            <div class="login-footer">
-                <button id="closeLogin" class="close-btn">العودة للصفحة الرئيسية</button>
-            </div>
-        </div>
-    </div>
 
     <!-- زر العودة للأعلى -->
     <button id="backToTop" class="back-to-top">
