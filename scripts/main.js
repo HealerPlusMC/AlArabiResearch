@@ -1,11 +1,12 @@
 // Initialize Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyD...",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "your-project",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcd1234"
+  apiKey: "AIzaSyAlF1tX9WjPAJAy08qDPxW-pDOua3bE3gw",
+  authDomain: "alarabiresearch.firebaseapp.com",
+  projectId: "alarabiresearch",
+  storageBucket: "alarabiresearch.firebasestorage.app",
+  messagingSenderId: "124042267520",
+  appId: "1:124042267520:web:c5138ed19ee49a94c34f65",
+  measurementId: "G-QEWDW6RDEC"
 };
 
 firebase.initializeApp(firebaseConfig);
